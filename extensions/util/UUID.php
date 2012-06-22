@@ -3,7 +3,7 @@
 namespace li3_hansd\extensions\util;
 
 /**
- * UUID value and utility class. An instance acts a UUID value class.
+ * UUID utility class.
  *
  * Based on cody posted by Andrew Moore 04-Dec-2009 08:45
  * Generates valid [RFC 4122][ref-rfc-4122] compliant Universally Unique IDentifiers
@@ -33,13 +33,6 @@ namespace li3_hansd\extensions\util;
  */
 class UUID {
 
-	/**
-	 * Holds the current UUID value for the value class.
-	 *
-	 * @var string
-	 */
-	protected $uuid = null;
-
 
 	/**
 	 * The official format for a string based UUID
@@ -48,6 +41,36 @@ class UUID {
 	 */
 	protected static $_format =
 		'[\da-f]{8}\-?[\da-f]{4}\-?[\da-f]{4}\-?[\da-f]{4}\-?[\da-f]{12}';
+
+
+	protected $value;
+
+	/**
+	 * The instance of the class acts a non-mutatble value class.
+	 */
+	public function __construct() {
+		$this->value = static::v4();
+	}
+
+	public function binary() {
+		return static::asBinary($this->value);
+	}
+
+	public function string() {
+		return $this->value;
+	}
+
+	public function hexString() {
+		return static::asHexString($this->value);
+	}
+
+	public function __toString() {
+		return $this->string();
+	}
+
+	public function __invoke() {
+		return $this->string();
+	}
 
 
 	/**
@@ -69,7 +92,7 @@ class UUID {
 	 * @param string $uuid
 	 */
 	public static function asBinary($uuid) {
-		if (!self::valid($uuid)) {
+		if (!self::isValid($uuid)) {
 			return false;
 		}
 		$hex = static::asHexString($uuid);
@@ -81,7 +104,7 @@ class UUID {
 	}
 
 	public static function asHexString($uuid) {
-		if (!self::valid($uuid)) {
+		if (!self::isValid($uuid)) {
 			return false;
 		}
 		return str_replace(array('-','{','}'), '', $uuid);
@@ -137,34 +160,6 @@ class UUID {
 
 	public static function generate() {
 		return self::v4();
-	}
-
-	/**
-	 * The instance of the class acts a non-mutatble value class.
-	 */
-	public function __construct() {
-		$this->uuid = self::v4();
-		return $this;
-	}
-
-// 	public function asString() {
-// 		return $this->uuid;
-// 	}
-
-// 	public function asBinary() {
-// 		return self::asBinary($this->uuid);
-// 	}
-
-	public function __toString(){
-		return $this->uuid;
-	}
-
-	public function __invoke(){
-		return $this->uuid;
-	}
-
-	public function __call($name, $arguments) {
-		self::$name($this->uuid);
 	}
 
 }
