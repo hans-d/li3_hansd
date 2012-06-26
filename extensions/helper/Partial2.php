@@ -13,7 +13,7 @@ namespace li3_hansd\extensions\helper;
 
 use lithium\template\TemplateException;
 
-class Partial extends \lithium\template\Helper {
+class Partial2 extends \lithium\template\Helper {
 
 	public function __call($method, $args) {
 		// original signature to more meaningfull variables

@@ -14,7 +14,6 @@ class SubjectLogger extends \lithium\analysis\Logger {
 	protected static $_priorities = array();
 
 	public static function __callStatic($priority, $params) {
-
 		$params += array(null, array());
 		return static::write($priority, $params[0], $params[1]);
 	}
